@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>RegMap-General</title>
+	<link rel="stylesheet" href="../regmap_style.css">
+</head>
+<body>
+	<div class="header">Confidential</div>
+
+	<div class="main">
+		<h1>AppFunc</h1>
+
+		<table class="regmap">
+		<tr class="table_header" >
+			<th class="addr">addr</th>
+			<th class="bit-pos">bit-pos</th>
+			<th class="bit-width">bit-width</th>
+			<th class="name">name</th>
+			<th class="type">type</th>
+			<th class="access">RW</th>
+			<th class="value-default">default</th>
+			<th class="value-range">range</th>
+			<th class="description">description</th>
+		</tr>
+		<tr>
+			<td class="addr">0x00000000</td>
+			<td class="bit-pos">31</td>
+			<td class="bit-widtd">32</td>
+			<td class="name">Signature</td>
+			<td class="type">uint32</td>
+			<td class="access">R</td>
+			<td class="value-default">0x46504741</td>
+			<td class="value-range">-</td>
+			<td class="description">識別用文字列。&quot;FPGA&quot;</td>
+		</tr>
+		<tr>
+			<td class="addr">0x00000004</td>
+			<td class="bit-pos">31</td>
+			<td class="bit-widtd">32</td>
+			<td class="name">Version</td>
+			<td class="type">uint32</td>
+			<td class="access">R</td>
+			<td class="value-default">0x00000000</td>
+			<td class="value-range">-</td>
+			<td class="description">Version番号。BCD符号。defaultで読める値は本資料とは乖離。</td>
+		</tr>
+		<tr>
+			<td class="addr">0x00000008</td>
+			<td class="bit-pos">31</td>
+			<td class="bit-widtd">16</td>
+			<td class="name">CompiledYear</td>
+			<td class="type">uint16</td>
+			<td class="access">R</td>
+			<td class="value-default">0x2026</td>
+			<td class="value-range">-</td>
+			<td class="description">年表示。BCD符号で表示する。</td>
+		</tr>
+		<tr>
+			<td class="addr">0x00000008</td>
+			<td class="bit-pos">15</td>
+			<td class="bit-widtd">8</td>
+			<td class="name">CompiledMontd</td>
+			<td class="type">uint8</td>
+			<td class="access">R</td>
+			<td class="value-default">0x04</td>
+			<td class="value-range">-</td>
+			<td class="description">月表示。BCD符号で表示する。</td>
+		</tr>
+		<tr>
+			<td class="addr">0x00000008</td>
+			<td class="bit-pos">7</td>
+			<td class="bit-widtd">8</td>
+			<td class="name">CompiledDay</td>
+			<td class="type">uint8</td>
+			<td class="access">R</td>
+			<td class="value-default">0x11</td>
+			<td class="value-range">-</td>
+			<td class="description">日表示。BCD符号で表示する。</td>
+		</tr>
+		<tr>
+			<td class="addr">0x0000000C</td>
+			<td class="bit-pos">31</td>
+			<td class="bit-widtd">24</td>
+			<td class="name">CompiledTime</td>
+			<td class="type">uint32</td>
+			<td class="access">R</td>
+			<td class="value-default">0x595900</td>
+			<td class="value-range">-</td>
+			<td class="description">時分秒表示。BCD符号で表示する。</td>
+		</tr>
+		<tr>
+			<td class="addr">0x00000020</td>
+			<td class="bit-pos">1</td>
+			<td class="bit-widtd">2</td>
+			<td class="name">SoftwareReset</td>
+			<td class="type">switch</td>
+			<td class="access">RW</td>
+			<td class="value-default">0x1</td>
+			<td class="value-range">0x0-0x3</td>
+			<td class="description">各種機能の動作を開始する際に、ソフトウェアから操作するリセットON/OFFスイッチ。1=ON, 2=OFF, otders=Don't care.</td>
+		</tr>
+		<tr>
+			<td class="addr">0x00000024</td>
+			<td class="bit-pos">31</td>
+			<td class="bit-widtd">32</td>
+			<td class="name">WriteTestArea</td>
+			<td class="type">uint32</td>
+			<td class="access">RW</td>
+			<td class="value-default">0x00000000</td>
+			<td class="value-range">0x00000000-0x0000ffff, 0x00020000, 0x00030000-0xffffffff</td>
+			<td class="description">ソフトウェア側のコマンド動作確認用。</td>
+		</tr>
+		</table>
+	</div>
+
+	<div class="back-to-list"><a href=../regmap.html>back</a></div>
+	<div class="footer">Confidential</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+prefix_name : "General"
+prefix_addr_bit : 24
+prefix_addr_value : "0x000000"
+regmap: 
+  - "addr": "0x00000000"
+    "bit_pos": 31
+    "bit_width": 32
+    "name": Signature
+    "data_type": uint32
+    "default_value": 0x46504741
+    "access": R
+    "description": "識別用文字列。\"FPGA\""
+    "generate" : ["Verilog"]
+
+  - "addr": "0x00000004"
+    "bit_pos": 31
+    "bit_width": 32
+    "name": Version
+    "data_type": uint32
+    "default_value": 0x00000000
+    "access": R
+    "description": "Version番号。BCD符号。defaultで読める値は本資料とは乖離。"
+    "generate" : ["Verilog", "C"]
+
+  - "addr": "0x00000008"
+    "bit_pos": 31
+    "bit_width": 16
+    "name": CompiledYear
+    "data_type": uint16
+    "default_value": 0x2026
+    "access": R
+    "description": "年表示。BCD符号で表示する。"
+    "generate" : ["Verilog"]
+
+  - "addr": "0x00000008"
+    "bit_pos": 15
+    "bit_width": 8
+    "name": CompiledMonth
+    "data_type": uint8
+    "default_value": 0x04
+    "access": R
+    "description": 月表示。BCD符号で表示する。
+    "generate" : ["Verilog"]
+    
+  - "addr": "0x00000008"
+    "bit_pos": 7
+    "bit_width": 8
+    "name": CompiledDay
+    "data_type": uint8
+    "default_value": 0x11
+    "access": R
+    "description": 日表示。BCD符号で表示する。
+    "generate" : ["Verilog"]
+
+  - "addr": "0x0000000C"
+    "bit_pos": 31
+    "bit_width": 24
+    "name": CompiledTime
+    "data_type": uint32
+    "default_value": 0x23595900
+    "access": R
+    "description": 時分秒表示。BCD符号で表示する。
+    "generate" : ["Verilog"]
+
+  - "addr": "0x00000020"
+    "bit_pos": 1
+    "bit_width": 2
+    "name": SoftwareReset
+    "data_type": switch
+    "default_value": 0x1
+    "access": RW
+    "description": 各種機能の動作を開始する際に、ソフトウェアから操作するリセットON/OFFスイッチ。1=ON, 2=OFF, others=Don't care.
+    "generate" : ["Verilog", "C", "sh"]
+
+  - "addr": "0x00000024"
+    "bit_pos": 31
+    "bit_width": 32
+    "name": WriteTestArea
+    "data_type": uint32
+    "default_value": 0x00000000
+    "access": RW
+    "description": ソフトウェア側のコマンド動作確認用。
+    "generate" : ["Verilog", "C", "sh"]
+    "allowed": [  # sample setting for debug
+      {min: 0x00000000, max: 0x0000ffff},
+      {min: 0x00020000, max: 0x00020000},
+      {min: 0x00030000, max: 0xffffffff},
+    ]
+
+

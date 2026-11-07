@@ -1,0 +1,61 @@
+/* ======   Base  ======================== */
+
+/* ======  layout  ======================== */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background-color: aliceblue;
+  text-align: right;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: aliceblue;
+  text-align: left;
+}
+.main {
+  padding-top: 50px;
+  overflow: auto;
+}
+
+.back-to-list {
+  padding: 100px;
+  text-align: center;
+  overflow: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* ======   Table  ======================== */
+table.regmap {
+  padding-top: 50px;
+  margin-top: 50px;  
+  table-layout: auto;
+  border: solid 1px #000000;
+  border-collapse: collapse;
+  width:100%;
+}
+tr.table_header {
+  background-color: lightgray;
+}
+
+td {  border: solid 1px #000000;  border-collapse: collapse; }
+th {  border: solid 1px #000000;  border-collapse: collapse; }
+
+.addr          {  width: 10%; }
+.bit-pos       {  width: 5%; }
+.bit-width     {  width: 5%; }
+.name          {  width: 10%; }
+.type          {  width: 5%; }
+.access        {   width: 2%; }
+.value-default {   width: 5%; }
+.value-range   {   width:13%; }
+.description   {  width: 35%; }
+
+
