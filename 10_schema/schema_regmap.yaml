@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft-04/schema#",
+  "title": "Register Map Parameter Schema",
+  "type": "object",
+  "properties": {
+    "prefix_name": {
+      "type": "string",
+      "pattern": "^[A-Za-z][0-9A-Za-z_]{2,31}$",
+      "description": "regmapのグループ名"
+    },
+    "prefix_addr_bit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24,
+      "description": "addrの先頭何bitをこのグループに割り当てるか"
+    },
+    "prefix_addr_value": {
+      "type": "string",
+      "pattern": "^0x[0-9A-Fa-f]{1,8}$",
+      "description": "addrの先頭何bitのどの値をこのグループと見なすか"
+    },
+    "regmap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["addr", "bit_pos", "bit_width", "name", "data_type", "default_value", "access", "description"],
+        "properties": {
+          "addr": {
+            "type": "string",
+            "maxLength": 16,
+            "pattern": "^0x[0-9A-Fa-f]{7}[048cC]$",
+            "description": "hexで4の倍数にて指定。パラメータの固定ID（FW内部で参照）"
+          },
+          "bit_pos": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 31,
+            "description": "bit位置。0-originのbig-endian で管理するため、31 がMSBかつ最初の値"
+          },
+          "bit_width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 32,
+            "description": "bit幅。bit_pos + bit_widthの値が32を超えないこと。"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 32,
+            "pattern": "^[A-Za-z][0-9A-Za-z_]{2,31}$",
+            "description": "パラメータの表示名。３文字以上３１文字以下の先頭は英字で英数字かアンダーバーであること。"
+          },
+          "data_type": {
+            "type": "string",
+            "maxLength": 16,
+            "enum": ["int8", "uint8", "int16", "uint16", "int32", "uint32", "switch"],
+            "description": "データ型。int8, uint8, int16, uint16, int32, uint32, switchが指定可能。switchに関しては2bit_width指定"
+          },
+          "default_value": {
+            "type": "integer",
+            "minimum": 0x00000000,
+            "maximum": 0xffffffff,
+            "description": "default値。負数の場合はhexに変換して設定すること。"
+          },
+         "access": {
+            "type": "string",
+            "maxLength": 4,
+            "enum": ["R", "W", "RW"],
+            "description": "対応するAccess方式。\"R\"=ReadOnly, \"W\"=WriteOnly, \"RW\"=ReadWrite."
+          },
+          "description": {
+            "type": "string",
+            "description": "説明文"
+          },
+
+          # /* 任意項目（存在する場合のみチェック） */
+          "generate": {
+            "type": "array",
+            "maxItems" : 8,
+            "items": {
+              "type": "string",
+              "maxLength": 32,
+              "enum": ["Verilog", "C", "sh" ],
+            },
+            "description": "生成対象。HTMLは必須で生成されるため指定不要。"
+          },
+          "allowed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "integer",
+                  "minimum": 0x00000000,
+                  "maximum": 0xffffffff,
+                },
+                "max": {
+                  "type": "integer",
+                  "minimum": 0x00000000,
+                  "maximum": 0xffffffff,
+                },
+              },
+              "required": ["min", "max"],
+              "additionalProperties": false,
+            }
+            "description": "値が取りうる範囲。負数の場合はhexに変換。設定されない場合はbit-widthが示す全範囲が有効扱いされる。用途はソフトウェアソースコード生成時。"
+          },
+          "tag": {
+            "type": "array",
+            "maxItems" : 8,
+            "items": {
+              "type": "string",
+              "maxLength": 32,
+              "pattern": "^[0-9A-Za-z]+$"
+            },
+            "description": "分類用。英数字のみ指定可能。各32文字以下。"
+          },
+          "notes": {
+            "type": "string",
+            "description": "備考"
+          },
+          
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["regmap"],
+  "additionalProperties": false
+}

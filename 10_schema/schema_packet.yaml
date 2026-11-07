@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft-04/schema#",
+  "title": "Packet format Schema",
+  "type": "object",
+  "properties": {
+    "packet_name": {
+      "type": "string",
+      "pattern": "^[A-Za-z][0-9A-Za-z_]{2,31}$",
+      "description": "パケットの名前。３文字以上３２文字以下。ASCIIのみ。"
+    },
+    "generate": {
+      "type": "array",
+      "maxItems" : 8,
+      "items": {
+        "type": "string",
+        "maxLength": 32,
+        "enum": ["Verilog", "C"],
+      },
+      "description": "生成対象。HTMLは必須で生成されるため指定不要。"
+    },
+
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "data_type", "min_width", "max_width", "description"],
+        "properties": {
+          "name" : {
+            "type": "string",
+            "description": "parameter の名前"
+          },
+          "data_type" : {
+            "type": "string",
+            "enum": ["struct", "int8", "uint8", "int16", "uint16", "int32", "uint32", "uint8[]" ],
+            "description": "parameter を処理する型"
+          },
+          "struct" : {
+            "type": "string",
+            "description": "data_typeにstrcutが指定されたときの参照名（型名）"
+          },
+          "min_width": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65536,
+            "description": "parameter の最大bit幅。固定長の場合はmin/maxを同じにすること"
+          },
+          "max_width": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65536,
+            "description": "parameter の最大bit幅。固定長の場合はmin/maxを同じにすること"
+          },
+          "description": {
+            "type": "string",
+            "description": "説明文"
+          },
+
+          # /* 任意項目（存在する場合のみチェック） */
+          "allowed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "integer",
+                  "minimum": 0x00000000,
+                  "maximum": 0xffffffff,
+                },
+                "max": {
+                  "type": "integer",
+                  "minimum": 0x00000000,
+                  "maximum": 0xffffffff,
+                },
+              },
+              "required": ["min", "max"],
+              "additionalProperties": false,
+            }
+            "description": "値が取りうる範囲。負数の場合はhexに変換。設定されない場合はbit-widthが示す全範囲が有効扱いされる。"
+          },
+          
+        },
+      },
+    },
+
+    "structs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required" : [ "parameters" ],
+        "properties": {
+          "struct_name": {
+            "type": "string",
+            "description": "構造体の名前"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "data_type", "min_width", "max_width", "description"],
+              "properties": {
+                "name" : {
+                  "type": "string",
+                  "description": "parameter の名前"
+                },
+                "data_type" : {
+                  "type": "string",
+                  "enum": ["int8", "uint8", "int16", "uint16", "int32", "uint32", "uint8[]" ],
+                  "description": "parameter を処理する型。strcut の入れ子は禁止するためstructは無し。"
+                },
+                "min_width": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65536,
+                  "description": "parameter の最大bit幅。固定長の場合はmin/maxを同じにすること"
+                },
+                "max_width": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65536,
+                  "description": "parameter の最大bit幅。固定長の場合はmin/maxを同じにすること"
+                },
+                "default_value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 0xffffffff,
+                  "description": "default値。data_type==structの場合はチェック対象外のため任意設定"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "説明文"
+                },
+                # /* 任意項目（存在する場合のみチェック） */
+                "allowed": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "min": {
+                        "type": "integer",
+                        "minimum": 0x00000000,
+                        "maximum": 0xffffffff,
+                      },
+                      "max": {
+                        "type": "integer",
+                        "minimum": 0x00000000,
+                        "maximum": 0xffffffff,
+                      },
+                    },
+                    "required": ["min", "max"],
+                    "additionalProperties": false,
+                  }
+                  "description": "値が取りうる範囲。負数の場合はhexに変換。設定されない場合はbit-widthが示す全範囲が有効扱いされる。"
+                },
+
+              },
+            },
+           
+          },
+          "additionalProperties": false,
+        }
+        
+      }
+    }
+
+  },
+  "required": ["packet_name", "parameters"],
+}
