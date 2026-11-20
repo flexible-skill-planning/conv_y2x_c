@@ -17,10 +17,10 @@ OBJ_DIR := obj
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows_CMD)
 ifneq ($(findstring CYGWIN,$(UNAME_S)),)
 	IS_POSIX = 1
-else ifneq ($(findstring MINGW,$(UNAME_S)),)
-	IS_POSIX = 1
 else ifeq ($(UNAME_S),Linux)
 	IS_POSIX = 1
+else ifneq ($(findstring MINGW,$(UNAME_S)),)
+	IS_POSIX = 2
 else
 	IS_POSIX = 0
 endif
@@ -34,10 +34,19 @@ YAML_DEFINES =	-DYAML_DECLARE_STATIC \
 
 
 ifeq ($(IS_POSIX),1)
-	# --- Linux / Cygwin / MSYS2 / Git Bash ---
+	# --- Linux / Cygwin / Git Bash ---
 	CC = gcc
 	GEN_EXE = bin/conv_y2x_gen_typical.elf
 	APP_EXE = bin/conv_y2x_tool_$(TARGET).elf
+	RM = rm -f -r
+	MKDIR = mkdir -p
+	CFLAGS = -I$(LIBYAML_DIR)/include -I$(LIBYAML_DIR) $(YAML_DEFINES) -g -Wall
+	LDFLAGS = 
+else ifeq ($(IS_POSIX),2)
+	# --- MSYS2 ---
+	CC = gcc
+	GEN_EXE = bin/conv_y2x_gen_typical.exe
+	APP_EXE = bin/conv_y2x_tool_$(TARGET).exe
 	RM = rm -f -r
 	MKDIR = mkdir -p
 	CFLAGS = -I$(LIBYAML_DIR)/include -I$(LIBYAML_DIR) $(YAML_DEFINES) -g -Wall
