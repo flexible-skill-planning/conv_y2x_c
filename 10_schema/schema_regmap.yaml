@@ -48,7 +48,7 @@
             "minLength": 3,
             "maxLength": 32,
             "pattern": "^[A-Za-z][0-9A-Za-z_]{2,31}$",
-            "description": "パラメータの表示名。３文字以上３１文字以下の先頭は英字で英数字かアンダーバーであること。"
+            "description": "パラメータの表示名。3文字以上32文字以下の先頭は英字で英数字かアンダーバーであること。"
           },
           "data_type": {
             "type": "string",
@@ -102,7 +102,7 @@
               },
               "required": ["min", "max"],
               "additionalProperties": false,
-            }
+            },
             "description": "値が取りうる範囲。負数の場合はhexに変換。設定されない場合はbit-widthが示す全範囲が有効扱いされる。用途はソフトウェアソースコード生成時。"
           },
           "tag": {
